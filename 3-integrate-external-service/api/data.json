@@ -1,0 +1,85 @@
+[
+  {
+    "id": "123",
+    "reason": "Watermain Shutdown ID #123",
+    "coordinates": [146.843169, -19.154150],
+    "affectedAssets": [],
+    "crew": ["Person A", "Person B"]
+  },
+  {
+    "id": "123",
+    "reason": "Watermain Shutdown ID #123",
+    "coordinates": [146.843169, -19.154150],
+    "affectedAssets": [{
+      "id": "V_29279179",
+      "status": "working"
+    }],
+    "crew": ["Person A", "Person B"]
+  },
+  {
+    "id": "123",
+    "reason": "Watermain Shutdown ID #123",
+    "coordinates": [146.843169, -19.154150],
+    "affectedAssets": [{
+      "id": "V_29279179",
+      "status": "closed"
+    }],
+    "crew": ["Person A", "Person B"]
+  },
+  {
+    "id": "123",
+    "reason": "Watermain Shutdown ID #123",
+    "coordinates": [146.843215, -19.153654],
+    "affectedAssets": [{
+      "id": "V_29279179",
+      "status": "closed"
+    }],
+    "crew": ["Person A", "Person B"]
+  },
+  {
+    "id": "123",
+    "reason": "Watermain Shutdown ID #123",
+    "coordinates": [146.843855, -19.152913],
+    "affectedAssets": [{
+      "id": "V_29279179",
+      "status": "closed"
+    }],
+    "crew": ["Person A", "Person B"]
+  },
+  {
+    "id": "123",
+    "reason": "Watermain Shutdown ID #123",
+    "coordinates": [146.844646, -19.152020],
+    "affectedAssets": [{
+      "id": "V_29279179",
+      "status": "closed"
+    }],
+    "crew": ["Person A", "Person B"]
+  },
+  {
+    "id": "123",
+    "reason": "Watermain Shutdown ID #123",
+    "coordinates": [146.844646, -19.152020],
+    "affectedAssets": [{
+      "id": "V_29279179",
+      "status": "closed"
+    }, {
+      "id": "V_29289062",
+      "status": "working"
+    }],
+    "crew": ["Person A", "Person B"]
+  },
+  {
+    "id": "123",
+    "reason": "Watermain Shutdown ID #123",
+    "coordinates": [146.844646, -19.152020],
+    "affectedAssets": [{
+      "id": "V_29279179",
+      "status": "closed"
+    }, {
+      "id": "V_29289062",
+      "status": "closed"
+    }],
+    "crew": ["Person A", "Person B"]
+  }
+]

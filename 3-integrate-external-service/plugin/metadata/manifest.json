@@ -1,0 +1,11 @@
+{
+  "name": "Sample plugin",
+  "version": "1.0.0",
+  "icon": "icon.svg",
+  "allowedDomains": [
+    {
+      "domain": "localhost",
+      "reason": "Accessing work order API"
+    }
+  ]
+}
