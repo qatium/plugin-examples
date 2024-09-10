@@ -46,3 +46,13 @@ node api.js
 ```
 
 ![](./img/3.png)
+
+### 4. Integrate AI assistant
+
+Works exactly like the number 2 plugin (Extend map visuals), but showcases how to add AI integration to use the plugin from Q assistant.
+
+After enabling developer mode in Qatium, run with
+```
+npm build
+npm run dev
+```
