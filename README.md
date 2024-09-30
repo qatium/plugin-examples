@@ -56,3 +56,16 @@ After enabling developer mode in Qatium, run with
 npm build
 npm run dev
 ```
+
+![](./img/4.png)
+
+### 5. Map Overlays
+
+This example showcases how different layers can be used as overlays, to display content on the map.
+
+After enabling developer mode in Qatium, run with
+```
+npm build
+npm run dev
+```
+![](./img/5.png)
