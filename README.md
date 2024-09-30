@@ -1,6 +1,6 @@
-### SDK Workshop Examples
+### Plugin Examples
 
-Plugin examples used in Qatium's SDK workshops to showcase SDK functionality.
+Plugin examples to showcase the SDK functionality.
 
 ### 1. Build first plugin
 
