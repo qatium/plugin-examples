@@ -6,11 +6,6 @@ Plugin examples to showcase the SDK functionality.
 
 A simple plugin showcasing how to connect the plugin with the UI panel, how to query the network model and how to apply changes to the model.
 
-After enabling developer mode in Qatium, run with
-```
-npm build
-npm run dev
-```
 
 ![](./img/1.png)
 
@@ -18,11 +13,6 @@ npm run dev
 
 A plugin showcasing how to change base map visuals given a condition. In this case, pipes installed before the date introduced in the panel are shown in orange.
 
-After enabling developer mode in Qatium, run with
-```
-npm build
-npm run dev
-```
 
 ![](./img/2.png)
 
@@ -34,28 +24,12 @@ In this case, the status of a network operator van is tracked in the map, and ac
 
 The fake API rotates the response in order every few seconds, from the ones in the `data.json` file
 
-After enabling developer mode in Qatium, run with
-```
-npm build
-npm run dev
-```
-
-Run the fake API with
-```
-node api.js
-```
-
 ![](./img/3.png)
 
 ### 4. Integrate AI assistant
 
 Works exactly like the number 2 plugin (Extend map visuals), but showcases how to add AI integration to use the plugin from Q assistant.
 
-After enabling developer mode in Qatium, run with
-```
-npm build
-npm run dev
-```
 
 ![](./img/4.png)
 
@@ -63,9 +37,4 @@ npm run dev
 
 This example showcases how different layers can be used as overlays, to display content on the map.
 
-After enabling developer mode in Qatium, run with
-```
-npm build
-npm run dev
-```
 ![](./img/5.png)

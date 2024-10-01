@@ -1,6 +1,8 @@
-# Qatium Example Overlay Plugin
+# Map Overlays
 
 This example showcases how different layers can be used as overlays, to display content on the map.
+
+![](../img/5.png)
 
 ## Running the plugin
 

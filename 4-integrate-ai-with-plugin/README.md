@@ -1,6 +1,8 @@
-# Qatium Sample plugin in Vanilla Typescript
+# Integrate AI assistant
 
-This sample is a skeleton project of a Qatium plugin. Using it, you can extend Qatium's functionality and its user interface.
+Works exactly like the number 2 plugin (Extend map visuals), but showcases how to add AI integration to use the plugin from Q assistant.
+
+![](../img/4.png)
 
 ## Running the plugin
 

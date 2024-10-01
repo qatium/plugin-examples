@@ -1,6 +1,8 @@
-# Qatium Sample plugin in Vanilla Typescript
+# Extend map visuals
 
-This sample is a skeleton project of a Qatium plugin. Using it, you can extend Qatium's functionality and its user interface.
+A plugin showcasing how to change base map visuals given a condition. In this case, pipes installed before the date introduced in the panel are shown in orange.
+
+![](../img/2.png)
 
 ## Running the plugin
 

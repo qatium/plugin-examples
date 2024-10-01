@@ -1,6 +1,8 @@
-# Qatium Sample plugin in Vanilla Typescript
+# Build first plugin
 
-This sample is a skeleton project of a Qatium plugin. Using it, you can extend Qatium's functionality and its user interface.
+A simple plugin showcasing how to connect the plugin with the UI panel, how to query the network model and how to apply changes to the model.
+
+![](../img/1.png)
 
 ## Running the plugin
 
