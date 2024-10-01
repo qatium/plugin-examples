@@ -38,3 +38,9 @@ Works exactly like the number 2 plugin (Extend map visuals), but showcases how t
 This example showcases how different layers can be used as overlays, to display content on the map.
 
 ![](./img/5.png)
+
+### 6. Integrate external service using API secrets
+
+This plugin integrates Qatium with a weather forecast API, and uses Qatium's secrets storage to securely store the API key.
+
+![](./img/6.png)
