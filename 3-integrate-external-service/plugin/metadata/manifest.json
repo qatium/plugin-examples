@@ -1,10 +1,10 @@
 {
+  "$schema": "https://unpkg.com/@qatium/sdk/manifest.schema.json",
   "name": "Sample plugin",
   "version": "1.0.0",
-  "icon": "icon.svg",
   "allowedDomains": [
     {
-      "domain": "localhost",
+      "domain": "http://localhost",
       "reason": "Accessing work order API"
     }
   ]
