@@ -1,0 +1,12 @@
+{
+  "$schema": "https://unpkg.com/@qatium/sdk/manifest.schema.json",
+  "runtime": "python",
+  "name": "Sample plugin",
+  "version": "1.0.0",
+  "icon": "icon.svg",
+  "python": {
+    "packages": [
+      "qatiumsdk"
+    ]
+  }
+}
