@@ -4,7 +4,7 @@ In this case, the status of a network operator van is tracked in the map, and ac
 
 The fake API rotates the response in order every few seconds, from the ones in the `data.json` file
 
-![](../img/3.png)
+![](../../img/3.png)
 
 After enabling developer mode in Qatium, run with
 ```

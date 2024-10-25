@@ -1,13 +1,13 @@
-# Build first plugin
+# Qatium Sample plugin in Vanilla Typescript
 
-A simple plugin showcasing how to connect the plugin with the UI panel, how to query the network model and how to apply changes to the model.
-
-![](../img/1.png)
+This sample is a skeleton project of a Qatium plugin. Using it, you can extend Qatium's functionality and its user interface.
 
 ## Running the plugin
 
 Start the development server
 ```bash
+python3 -m venv venv
+source venv/bin/activate
 npm install
 npm run dev
 ```

@@ -28,6 +28,7 @@ onMessage((msg: MessageToUI) => {
       break;
     case "weather-forecast":
       document.querySelector<HTMLDivElement>("#login")!.style.display = "none";
+      document.querySelector<HTMLDivElement>("#main")!.style.display = "flex";
       document.querySelector<HTMLDivElement>("#main")!.innerHTML = `
       <h3>${msg.location}</h3>
       <div style="display: flex; flex-direction: row">

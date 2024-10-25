@@ -2,12 +2,14 @@
 
 Works exactly like the number 2 plugin (Extend map visuals), but showcases how to add AI integration to use the plugin from Q assistant.
 
-![](../img/4.png)
+![](../../img/4.png)
 
 ## Running the plugin
 
 Start the development server
 ```bash
+python3 -m venv venv
+source venv/bin/activate
 npm install
 npm run dev
 ```

@@ -2,7 +2,7 @@
 
 A plugin showcasing how to change base map visuals given a condition. In this case, pipes installed before the date introduced in the panel are shown in orange.
 
-![](../img/2.png)
+![](../../img/2.png)
 
 ## Running the plugin
 

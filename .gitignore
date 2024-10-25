@@ -29,3 +29,4 @@ yarn-error.log*
 # typescript incremental cache
 tsconfig.tsbuildinfo
 
+package-lock.json

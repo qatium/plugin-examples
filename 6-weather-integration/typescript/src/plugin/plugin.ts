@@ -37,8 +37,7 @@ export class MyPlugin implements Plugin {
   }
 
   async onMessage({apiToken}: { apiToken: string}) {
-    const result = await sdk.integrations.secrets.set(this.secretName, apiToken);
-    console.log(result)
-    await this.fetchWeather();
+    await sdk.integrations.secrets.set(this.secretName, apiToken);
+    setTimeout(() => this.fetchWeather(), 500);
   }
 }

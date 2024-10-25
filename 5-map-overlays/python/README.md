@@ -2,12 +2,14 @@
 
 This example showcases how different layers can be used as overlays, to display content on the map.
 
-![](../img/5.png)
+![](../../img/5.png)
 
 ## Running the plugin
 
 Start the development server
 ```bash
+python3 -m venv venv
+source venv/bin/activate
 npm install
 npm run dev
 ```
