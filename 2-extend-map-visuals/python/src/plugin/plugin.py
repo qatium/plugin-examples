@@ -1,9 +1,5 @@
-from typing import Dict
-from datetime import datetime, timedelta
 from qatiumsdk import Plugin
 from qatiumsdk import sdk
-from qatiumsdk import AssetStatus
-from js import JSON
 
 class MyPlugin(Plugin):
     def init(self):
