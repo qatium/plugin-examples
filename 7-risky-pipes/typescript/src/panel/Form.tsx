@@ -61,7 +61,11 @@ export const Form = ({pressureUnit}: FormProps) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validate()) {
-      requestSearch(formValues);
+      const values = {
+        maxPressure: Number(formValues.maxPressure),
+        olderThanYears: Number(formValues.olderThanYears)
+      }
+      requestSearch(values);
     }
   };
 
@@ -87,7 +91,7 @@ export const Form = ({pressureUnit}: FormProps) => {
         />
         {errors.maxPressure && <p>{errors.maxPressure}</p>}
       </div>
-      <button type="submit">{t("send")}</button>
+      <button type="submit" name="send">{t("send")}</button>
     </form>
   );
 };

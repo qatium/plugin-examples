@@ -26,7 +26,7 @@ describe("Form", () => {
         expect(screen.getByLabelText(`Max Pressure ${pressureUnit}`)).toHaveValue(
             "100"
         );
-        expect(screen.getByRole("button", { name: "Enviar" })).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: "send" })).toBeInTheDocument();
     });
 
     it("updates form values when input changes", () => {
@@ -48,13 +48,14 @@ describe("Form", () => {
         const olderThanYearsInput = screen.getByLabelText("Older Than Years");
         const maxPressureInput = screen.getByLabelText(`Max Pressure ${pressureUnit}`);
 
-        fireEvent.change(olderThanYearsInput, { target: { value: "-10" } });
-        fireEvent.change(maxPressureInput, { target: { value: "-50" } });
+        fireEvent.change(olderThanYearsInput, { target: { value: -10 } });
+        fireEvent.change(maxPressureInput, { target: { value: -50 } });
 
-        const submitButton = screen.getByRole("button", { name: "Enviar" });
+        const submitButton = screen.getByRole("button", { name: "send" });
         fireEvent.click(submitButton);
 
-        expect(screen.getByText("errorMustBePositive")).toBeInTheDocument();
+        const errors = screen.queryAllByText(/errorMustBePositive/);
+        expect(errors).toHaveLength(2);
         expect(sendMessage).not.toHaveBeenCalled();
     });
 
@@ -67,7 +68,7 @@ describe("Form", () => {
         fireEvent.change(olderThanYearsInput, { target: { value: "40" } });
         fireEvent.change(maxPressureInput, { target: { value: "150" } });
 
-        const submitButton = screen.getByRole("button", { name: "Enviar" });
+        const submitButton = screen.getByRole("button", { name: "send" });
         fireEvent.click(submitButton);
 
         expect(sendMessage).toHaveBeenCalledWith({

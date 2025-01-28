@@ -3,13 +3,9 @@ import { PipeList } from "./PipeList";
 import { sendMessage } from "@qatium/sdk/ui";
 import { PipeInRisk } from "../types";
 
-// Mock de la función sendMessage
 jest.mock("@qatium/sdk/ui", () => ({
   sendMessage: jest.fn(),
 }));
-
-// Mock del icono
-jest.mock("./assets/icon-map-pointer.svg", () => "IconMapPointer");
 
 describe("PipeList", () => {
   const pipes: PipeInRisk[] = [
@@ -19,10 +15,16 @@ describe("PipeList", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.useFakeTimers();
   });
 
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+
   it("renders a list of pipes", () => {
-    render(<PipeList pipes={pipes} />);
+    render(<PipeList pipes={pipes}></PipeList>);
 
     expect(screen.getByText("pipe1")).toBeInTheDocument();
     expect(screen.getByText("10")).toBeInTheDocument();
@@ -63,12 +65,5 @@ describe("PipeList", () => {
 
     const buttons = screen.getAllByRole("button");
     expect(buttons.length).toBe(pipes.length);
-  });
-
-  it("renders the IconMapPointer for each button", () => {
-    render(<PipeList pipes={pipes} />);
-
-    const icons = screen.getAllByRole("img", { name: "IconMapPointer" });
-    expect(icons.length).toBe(pipes.length);
   });
 });

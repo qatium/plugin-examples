@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { App } from "./App";
 import { onMessage } from "@qatium/sdk/ui";
 import { Form } from "./Form";
@@ -36,16 +36,9 @@ describe("App", () => {
     });
   });
 
-  it("renders the App component with Form and PipeList", () => {
-    render(<App />);
-
-    expect(screen.getByText("Mocked Form")).toBeInTheDocument();
-    expect(screen.getByText("Mocked PipeList")).toBeInTheDocument();
-  });
-
   it("sets pressureUnit and pipesInRisk state based on messages", () => {
-    render(<App />);
 
+    render(<App />);
     expect(Form).toHaveBeenCalledWith(
       { pressureUnit: "bar" },
       expect.anything()

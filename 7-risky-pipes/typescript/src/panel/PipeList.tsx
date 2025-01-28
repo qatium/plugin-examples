@@ -45,7 +45,7 @@ export const PipeList = ({ pipes }: PipeListProps) => {
               <button
                 onClick={() => focusAsset(pipe.id)}
               >
-                <IconMapPointer />
+                <IconMapPointer aria-label="Map pointer" />
               </button>
             </li>
           ))}

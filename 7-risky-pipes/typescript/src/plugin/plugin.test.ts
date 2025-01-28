@@ -1,30 +1,10 @@
 import { MyPlugin } from "./plugin";
-import "@qatium/sdk";
-import { Pipe, Junction, StyleProperties } from "@qatium/sdk";
+import { StyleProperties } from "@qatium/sdk";
 import { MessageToEngine } from "../communication/messages";
 import { PipeInRisk } from "../types";
+import { mockSDK } from "@qatium/sdk-testing-library";
 
-jest.mock("@qatium/sdk", () => ({
-  sdk: {
-    network: {
-      getPipes: jest.fn(),
-      getConnectedAssets: jest.fn(),
-      getUnits: jest.fn(() => ({
-        parameters: { pressure: "psi" },
-      })),
-    },
-    map: {
-      addStyles: jest.fn(),
-      fitTo: jest.fn(),
-      setHighlights: jest.fn(),
-      clearHighlights: jest.fn(),
-    },
-    ui: {
-      sendMessage: jest.fn(),
-    },
-  },
-}));
-
+  
 describe("MyPlugin", () => {
   let plugin: MyPlugin;
 
@@ -35,44 +15,39 @@ describe("MyPlugin", () => {
 
   describe("init", () => {
     it("sends the pressure unit to the UI", () => {
+      
+      const sdk = mockSDK({})
+      const sendMessageSpy = jest.spyOn(sdk.ui, "sendMessage");
+      
+      global.sdk = sdk;
       plugin.init();
 
-      expect(sdk.ui.sendMessage).toHaveBeenCalledWith({
+      expect(sendMessageSpy).toHaveBeenCalledWith({
         event: "pressure-unit",
-        pressureUnit: "psi",
+        pressureUnit: "mwc",
       });
     });
   });
 
   describe("run", () => {
     it("calculates pipes in risk and updates styles and panel", () => {
-      const mockPipes: Pipe[] = [
-        {
-          id: "pipe1",
-          installationDate: new Date("1970-01-01"),
-        } as Pipe,
-        {
-          id: "pipe2",
-          installationDate: new Date("2020-01-01"),
-        } as Pipe,
-      ];
 
-      const mockJunctions: Junction[] = [
-        {
-          id: "junction1",
-          simulation: { pressure: 120 },
-        } as Junction,
-      ];
+      const sdk = mockSDK({
+        network: [
+          {
+            type: "Pipe",
+            id: "pipe1",
+            installationDate: new Date("1990-01-01"),
+            connections: ["J1"],
+          },
+          { id: "J1", type: "Junction", simulation: { pressure: 120 } },
+        ],
+      });
 
-      (sdk.network.getPipes as jest.Mock).mockImplementation((callback) =>
-        mockPipes.forEach((pipe) => callback(pipe))
-      );
+      global.sdk = sdk;
 
-      (sdk.network.getConnectedAssets as jest.Mock).mockReturnValue(
-        mockJunctions
-      );
 
-      const pipesInRisk = [{ id: "pipe1", maxPressure: 120, years: "1970" }];
+      const pipesInRisk = [{ id: "pipe1", maxPressure: 120, years: "1990" }];
 
       const styles: Record<string, StyleProperties> = {
         pipe1: {
@@ -96,8 +71,22 @@ describe("MyPlugin", () => {
   describe("updatePanel", () => {
     it("sends pipes in risk to the UI", () => {
       const pipesInRisk: PipeInRisk[] = [
-        { id: "pipe1", maxPressure: 120, years: "1970" },
+        { id: "pipe1", maxPressure: 120, years: "1990" },
       ];
+
+      const sdk = mockSDK({
+        network: [
+          {
+            type: "Pipe",
+            id: "pipe1",
+            installationDate: new Date("1990-01-01"),
+            connections: ["J1"],
+          },
+          { id: "J1", type: "Junction", simulation: { pressure: 120 } },
+        ],
+      });
+
+      global.sdk = sdk;
 
       plugin["updatePanel"](pipesInRisk);
 
@@ -109,7 +98,16 @@ describe("MyPlugin", () => {
   });
 
   describe("onMessage", () => {
+
+    beforeAll(() => {
+      const sdk = mockSDK({});
+      global.sdk = sdk;
+    })
     it("handles 'request-risky-pipes' messages", () => {
+
+      const sdk = mockSDK({});
+      global.sdk = sdk;
+
       jest.spyOn(plugin, "run");
 
       const message: MessageToEngine = {
@@ -125,6 +123,7 @@ describe("MyPlugin", () => {
     });
 
     it("handles 'fit-to' messages", () => {
+
       const message: MessageToEngine = {
         event: "fit-to",
         assetId: "pipe1",
@@ -140,6 +139,7 @@ describe("MyPlugin", () => {
     });
 
     it("handles 'highlight' messages", () => {
+
       const message: MessageToEngine = {
         event: "highlight",
         assetId: "pipe1",
