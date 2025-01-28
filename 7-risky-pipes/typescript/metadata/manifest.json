@@ -1,0 +1,5 @@
+{
+  "$schema": "https://unpkg.com/@qatium/sdk/manifest.schema.json",
+  "name": "Risky Pipes",
+  "version": "1.0.0"
+}
