@@ -1,7 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { PipeList } from "./PipeList";
 import { sendMessage } from "@qatium/sdk/ui";
-import { PipeInRisk } from "../types";
+import { PipeInRisk } from "../../types";
+import { CLEAR_HIGHLIGHTS_TIMEOUT } from "../../constants";
 
 jest.mock("@qatium/sdk/ui", () => ({
   sendMessage: jest.fn(),
@@ -56,7 +57,7 @@ describe("PipeList", () => {
       assetId: "pipe1",
     });
 
-    jest.advanceTimersByTime(1500);
+    jest.advanceTimersByTime(CLEAR_HIGHLIGHTS_TIMEOUT);
     expect(sendMessage).toHaveBeenCalledWith({ event: "clear-highlights" });
   });
 

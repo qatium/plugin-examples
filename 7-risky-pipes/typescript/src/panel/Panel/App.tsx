@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { onMessage } from "@qatium/sdk/ui";
-import { MessageToUI } from "../communication/messages";
+import { MessageToUI } from "../../communication/messages";
 import { Form } from "./Form"
 import { PipeList } from "./PipeList";
-import { PipeInRisk } from "../types";
+import { PipeInRisk } from "../../types";
 
 
 export const App = () => {

@@ -11,4 +11,3 @@ export type PipeInRisk = {
   maxPressure: number;
   id: AssetId
 };
-

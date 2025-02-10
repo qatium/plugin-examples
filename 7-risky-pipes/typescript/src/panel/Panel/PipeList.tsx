@@ -1,14 +1,13 @@
 import { AssetId } from "@qatium/sdk";
 import { sendMessage } from "@qatium/sdk/ui";
-import { MessageToEngine } from "../communication/messages";
-import { PipeInRisk } from "../types";
-import IconMapPointer from "./assets/icon-map-pointer.svg";
+import { MessageToEngine } from "../../communication/messages";
+import IconMapPointer from "../assets/icon-map-pointer.svg";
+import { PipeInRisk } from "../../types";
+import { CLEAR_HIGHLIGHTS_TIMEOUT } from "../../constants";
 
 type PipeListProps = {
   pipes: PipeInRisk[];
-}
-
-const CLEAR_HIGHLIGHTS_TIMEOUT = 1500;
+};
 
 
 const mapService = {

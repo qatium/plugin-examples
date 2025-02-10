@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { FormValues } from "../types";
+import { FormValues } from "../../types";
 import { sendMessage } from "@qatium/sdk/ui";
-import { MessageToEngine } from "../communication/messages";
+import { MessageToEngine } from "../../communication/messages";
 import { useTranslation } from "react-i18next";
+import { DEFAULT_MAX_PREASSURE, DEFAULT_OLDER_YEARS } from "../../constants";
 
 
 type FormProps = {
@@ -17,34 +18,27 @@ const requestSearch = (payload: FormValues) => {
 };
 
 const isValidNumber = (value: number) => {
-    if (Number.isNaN(value)) return false
-    return value >= 0
-  }
+  if (Number.isNaN(value)) return false
+  return value >= 0
+}
 
-  const DEFAULT_OLDER_YEARS = 35
-  const DEFAULT_MAX_PREASSURE = 100
-
-
-
-export const Form = ({pressureUnit}: FormProps) => {
+export const Form = ({ pressureUnit }: FormProps) => {
   const { t } = useTranslation();
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const [formValues, setFormValues] = useState<FormValues>({
-      olderThanYears: DEFAULT_OLDER_YEARS,
-      maxPressure: DEFAULT_MAX_PREASSURE,
-    });
+    olderThanYears: DEFAULT_OLDER_YEARS,
+    maxPressure: DEFAULT_MAX_PREASSURE,
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    
+
     setFormValues({
       ...formValues,
       [name]: value,
     });
   };
-
-  
 
   const validate = (): boolean => {
     const newErrors: { [key: string]: string } = {};
@@ -71,8 +65,8 @@ export const Form = ({pressureUnit}: FormProps) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mb-4">
-        <label htmlFor="olderThanYears">Older Than Years</label>
+      <div>
+        <label htmlFor="olderThanYears">{t("olderThanYears")}</label>
         <input
           id="olderThanYears"
           name="olderThanYears"
@@ -81,8 +75,8 @@ export const Form = ({pressureUnit}: FormProps) => {
         />
         {errors.olderThanYears && <p>{errors.olderThanYears}</p>}
       </div>
-      <div className="mb-4">
-        <label htmlFor="maxPressure">Max Pressure {pressureUnit}</label>
+      <div>
+        <label htmlFor="maxPressure">{t("maxPressure")} {pressureUnit}</label>
         <input
           id="maxPressure"
           name="maxPressure"

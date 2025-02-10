@@ -1,6 +1,9 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { Form } from "./Form";
 import { sendMessage } from "@qatium/sdk/ui";
+import { useTranslation } from "react-i18next";
+import { DEFAULT_MAX_PREASSURE, DEFAULT_OLDER_YEARS } from "../../constants";
+const { t } = useTranslation();
 
 jest.mock("@qatium/sdk/ui", () => ({
     sendMessage: jest.fn(),
@@ -22,9 +25,9 @@ describe("Form", () => {
     it("renders the form with default values", () => {
         render(<Form pressureUnit={pressureUnit} />);
 
-        expect(screen.getByLabelText("Older Than Years")).toHaveValue("35");
-        expect(screen.getByLabelText(`Max Pressure ${pressureUnit}`)).toHaveValue(
-            "100"
+        expect(screen.getByLabelText(t("olderThanYears"))).toHaveValue(DEFAULT_OLDER_YEARS.toString());
+        expect(screen.getByLabelText(`${t("maxPressure")} ${pressureUnit}`)).toHaveValue(
+            DEFAULT_MAX_PREASSURE.toString()
         );
         expect(screen.getByRole("button", { name: "send" })).toBeInTheDocument();
     });
@@ -32,8 +35,8 @@ describe("Form", () => {
     it("updates form values when input changes", () => {
         render(<Form pressureUnit={pressureUnit} />);
 
-        const olderThanYearsInput = screen.getByLabelText("Older Than Years");
-        const maxPressureInput = screen.getByLabelText(`Max Pressure ${pressureUnit}`);
+        const olderThanYearsInput = screen.getByLabelText(t("olderThanYears"));
+        const maxPressureInput = screen.getByLabelText(`${t("maxPressure")} ${pressureUnit}`);
 
         fireEvent.change(olderThanYearsInput, { target: { value: "40" } });
         fireEvent.change(maxPressureInput, { target: { value: "150" } });
@@ -45,8 +48,8 @@ describe("Form", () => {
     it("shows validation errors for invalid inputs", () => {
         render(<Form pressureUnit={pressureUnit} />);
 
-        const olderThanYearsInput = screen.getByLabelText("Older Than Years");
-        const maxPressureInput = screen.getByLabelText(`Max Pressure ${pressureUnit}`);
+        const olderThanYearsInput = screen.getByLabelText(t("olderThanYears"));
+        const maxPressureInput = screen.getByLabelText(`${t("maxPressure")} ${pressureUnit}`);
 
         fireEvent.change(olderThanYearsInput, { target: { value: -10 } });
         fireEvent.change(maxPressureInput, { target: { value: -50 } });
@@ -62,8 +65,8 @@ describe("Form", () => {
     it("calls requestSearch with valid form values on submit", () => {
         render(<Form pressureUnit={pressureUnit} />);
 
-        const olderThanYearsInput = screen.getByLabelText("Older Than Years");
-        const maxPressureInput = screen.getByLabelText(`Max Pressure ${pressureUnit}`);
+        const olderThanYearsInput = screen.getByLabelText(t("olderThanYears"));
+        const maxPressureInput = screen.getByLabelText(`${t("maxPressure")} ${pressureUnit}`);
 
         fireEvent.change(olderThanYearsInput, { target: { value: "40" } });
         fireEvent.change(maxPressureInput, { target: { value: "150" } });

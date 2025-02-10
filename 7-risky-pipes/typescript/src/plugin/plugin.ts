@@ -2,6 +2,7 @@ import { Plugin } from "@qatium/sdk/plugin";
 import { Junction, Pipe, StyleProperties } from "@qatium/sdk";
 import { MessageToEngine, MessageToUI } from "../communication/messages";
 import { PipeInRisk } from "../types";
+import { DEFAULT_MAX_PREASSURE, DEFAULT_OLDER_YEARS } from "../constants";
 
 const yearsToMilis = (years: number) => years * 365 * 24 * 60 * 60 * 1000;
 
@@ -51,8 +52,8 @@ const getPipesInRisk = (riskParameters: {
 };
 
 export class MyPlugin implements Plugin {
-  private olderThanYears: number = 35;
-  private maxPressure: number = 100;
+  private olderThanYears: number = DEFAULT_OLDER_YEARS;
+  private maxPressure: number = DEFAULT_MAX_PREASSURE;
 
   init() {
     sdk.ui.sendMessage<MessageToUI>({
