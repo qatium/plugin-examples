@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@qatium/sdk':
-        specifier: ^0.0.57
-        version: 0.0.57(@deck.gl/extensions@9.1.0(@deck.gl/core@9.1.0)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(@loaders.gl/core@4.3.3)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0)))
+        specifier: ^0.0.58
+        version: 0.0.58(@deck.gl/extensions@9.1.0(@deck.gl/core@9.1.0)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(@loaders.gl/core@4.3.3)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0)))
       i18n:
         specifier: ^0.15.1
         version: 0.15.1
@@ -29,7 +29,7 @@ importers:
     devDependencies:
       '@qatium/sdk-testing-library':
         specifier: ^1.0.9
-        version: 1.0.9(@qatium/sdk@0.0.57(@deck.gl/extensions@9.1.0(@deck.gl/core@9.1.0)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(@loaders.gl/core@4.3.3)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(jest@29.7.0(@types/node@22.12.0)(ts-node@10.9.2(@types/node@22.12.0)(typescript@5.5.4)))(typescript@5.5.4)
+        version: 1.0.9(@qatium/sdk@0.0.58(@deck.gl/extensions@9.1.0(@deck.gl/core@9.1.0)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(@loaders.gl/core@4.3.3)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(jest@29.7.0(@types/node@22.12.0)(ts-node@10.9.2(@types/node@22.12.0)(typescript@5.5.4)))(typescript@5.5.4)
       '@testing-library/dom':
         specifier: ^10.4.0
         version: 10.4.0
@@ -904,8 +904,8 @@ packages:
       '@qatium/sdk': '*'
       jest: '>= 29.0.0 < 30.0.0'
 
-  '@qatium/sdk@0.0.57':
-    resolution: {integrity: sha512-npUBZS1yylgyfFlpl4ZAkByXdAsUWDK1CfvpUTqNEVLhLa9I4r5YjYWK9LA9a6QUdOIKyDoNLsXkHrijNXCZyg==}
+  '@qatium/sdk@0.0.58':
+    resolution: {integrity: sha512-IkQBmeuilXfzEn8ZERzc35SdbZm95Y4OHut0H0JyGyFd/ob5MRgCxXIXAit0Pbx9kLP81+aStCAIiHPTvYEoqQ==}
 
   '@rollup/pluginutils@5.1.4':
     resolution: {integrity: sha512-USm05zrsFxYLPdWWq+K3STlWiT/3ELn3RcV5hJMghpeAIhxfsUIg6mt12CBJBInWMV4VneoV7SfGv8xIwo2qNQ==}
@@ -3778,17 +3778,17 @@ snapshots:
 
   '@probe.gl/stats@4.1.0': {}
 
-  '@qatium/sdk-testing-library@1.0.9(@qatium/sdk@0.0.57(@deck.gl/extensions@9.1.0(@deck.gl/core@9.1.0)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(@loaders.gl/core@4.3.3)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(jest@29.7.0(@types/node@22.12.0)(ts-node@10.9.2(@types/node@22.12.0)(typescript@5.5.4)))(typescript@5.5.4)':
+  '@qatium/sdk-testing-library@1.0.9(@qatium/sdk@0.0.58(@deck.gl/extensions@9.1.0(@deck.gl/core@9.1.0)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(@loaders.gl/core@4.3.3)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(jest@29.7.0(@types/node@22.12.0)(ts-node@10.9.2(@types/node@22.12.0)(typescript@5.5.4)))(typescript@5.5.4)':
     dependencies:
       '@dagrejs/graphlib': 2.2.4
-      '@qatium/sdk': 0.0.57(@deck.gl/extensions@9.1.0(@deck.gl/core@9.1.0)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(@loaders.gl/core@4.3.3)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0)))
+      '@qatium/sdk': 0.0.58(@deck.gl/extensions@9.1.0(@deck.gl/core@9.1.0)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(@loaders.gl/core@4.3.3)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0)))
       epanet-js: 0.7.0
       jest: 29.7.0(@types/node@22.12.0)(ts-node@10.9.2(@types/node@22.12.0)(typescript@5.5.4))
       jest-mock-extended: 3.0.7(jest@29.7.0(@types/node@22.12.0)(ts-node@10.9.2(@types/node@22.12.0)(typescript@5.5.4)))(typescript@5.5.4)
     transitivePeerDependencies:
       - typescript
 
-  '@qatium/sdk@0.0.57(@deck.gl/extensions@9.1.0(@deck.gl/core@9.1.0)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(@loaders.gl/core@4.3.3)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0)))':
+  '@qatium/sdk@0.0.58(@deck.gl/extensions@9.1.0(@deck.gl/core@9.1.0)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(@loaders.gl/core@4.3.3)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0)))':
     dependencies:
       '@deck.gl/aggregation-layers': 9.1.0(@deck.gl/core@9.1.0)(@deck.gl/layers@9.1.0(@deck.gl/core@9.1.0)(@loaders.gl/core@4.3.3)(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0))))(@luma.gl/core@9.1.0)(@luma.gl/engine@9.1.0(@luma.gl/core@9.1.0)(@luma.gl/shadertools@9.1.0(@luma.gl/core@9.1.0)))
       '@deck.gl/core': 9.1.0

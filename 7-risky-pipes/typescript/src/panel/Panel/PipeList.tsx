@@ -3,7 +3,7 @@ import { sendMessage } from "@qatium/sdk/ui";
 import { MessageToEngine } from "../../communication/messages";
 import IconMapPointer from "../assets/icon-map-pointer.svg";
 import { PipeInRisk } from "../../types";
-import { CLEAR_HIGHLIGHTS_TIMEOUT } from "../../constants";
+import { useTranslation } from "react-i18next";
 
 type PipeListProps = {
   pipes: PipeInRisk[];
@@ -17,24 +17,19 @@ const mapService = {
   highlight: (assetId: string) => {
     sendMessage<MessageToEngine>({ event: "highlight", assetId });
   },
-  clearHighlights: () => {
-    sendMessage<MessageToEngine>({ event: "clear-highlights" });
-  },
 };
 
 const focusAsset = (assetId: AssetId) => {
     mapService.highlight(assetId);
     mapService.fitTo(assetId);
-
-    setTimeout(() => {
-      mapService.clearHighlights();
-    }, CLEAR_HIGHLIGHTS_TIMEOUT);
   };
 
 export const PipeList = ({ pipes }: PipeListProps) => {
+  const { t } = useTranslation();
+
   return (
     <div>
-      {pipes.length > 0 && (
+      {pipes.length > 0 ? (
         <ol>
           {pipes.map((pipe) => (
             <li key={pipe.id}>
@@ -49,6 +44,8 @@ export const PipeList = ({ pipes }: PipeListProps) => {
             </li>
           ))}
         </ol>
+      ) : (
+        <p>{t("emptyPipeList")}</p>
       )}
     </div>
   );

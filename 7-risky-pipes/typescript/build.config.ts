@@ -37,6 +37,7 @@ const panelConfig: InlineConfig = {
   build: {
     outDir: "../../dist",
     emptyOutDir: false,
+    minify: false
   },
   plugins: [
     viteSingleFile(),

@@ -149,15 +149,5 @@ describe("MyPlugin", () => {
 
       expect(sdk.map.setHighlights).toHaveBeenCalledWith(["pipe1"]);
     });
-
-    it("handles 'clear-highlights' messages", () => {
-      const message: MessageToEngine = {
-        event: "clear-highlights",
-      };
-
-      plugin.onMessage(message);
-
-      expect(sdk.map.clearHighlights).toHaveBeenCalled();
-    });
   });
 });

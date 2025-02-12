@@ -1,8 +1,0 @@
-{
-  "translation": {
-    "errorMustBePositive": "Must be a positive number",
-    "send": "Send",
-    "olderThanYears": "Older Than Years",
-    "maxPressure": "Max Pressure"
-  }
-}

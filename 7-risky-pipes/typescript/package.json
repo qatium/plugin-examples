@@ -36,7 +36,7 @@
     "vite-plugin-svgr": "^4.2.0"
   },
   "dependencies": {
-    "@qatium/sdk": "^0.0.57",
+    "@qatium/sdk": "^0.0.58",
     "i18n": "^0.15.1",
     "i18next": "^24.2.2",
     "react": "18.3.1",

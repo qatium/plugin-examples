@@ -8,6 +8,8 @@ import { DEFAULT_MAX_PREASSURE, DEFAULT_OLDER_YEARS } from "../../constants";
 
 type FormProps = {
   pressureUnit: string;
+  setIsLoading: (loading: boolean) => void;
+  isLoading: boolean;
 }
 
 const requestSearch = (payload: FormValues) => {
@@ -22,7 +24,7 @@ const isValidNumber = (value: number) => {
   return value >= 0
 }
 
-export const Form = ({ pressureUnit }: FormProps) => {
+export const Form = ({ pressureUnit, setIsLoading, isLoading }: FormProps) => {
   const { t } = useTranslation();
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -59,6 +61,7 @@ export const Form = ({ pressureUnit }: FormProps) => {
         maxPressure: Number(formValues.maxPressure),
         olderThanYears: Number(formValues.olderThanYears)
       }
+      setIsLoading(true);
       requestSearch(values);
     }
   };
@@ -85,7 +88,7 @@ export const Form = ({ pressureUnit }: FormProps) => {
         />
         {errors.maxPressure && <p>{errors.maxPressure}</p>}
       </div>
-      <button type="submit" name="send">{t("send")}</button>
+      <button type="submit" name="send" disabled={isLoading}>{t("send")}</button>
     </form>
   );
 };
