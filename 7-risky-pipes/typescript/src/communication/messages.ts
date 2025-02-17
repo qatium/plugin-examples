@@ -9,11 +9,15 @@ export type MessageToUI =
   | {
       event: "pressure-unit";
       pressureUnit: string;
+    }
+  | {
+      event: "update-layer-visibility";
+      isLayerVisible: boolean;
     };
 
 
 export type MessageToEngine =
-  |{
+  | {
       event: "fit-to";
       assetId: string;
     }
@@ -27,5 +31,9 @@ export type MessageToEngine =
   | {
       event: "request-risky-pipes";
       payload: FormValues;
+    }
+  | {
+      event: "toggle-shutdown-layer";
+      isLayerVisible: boolean;
     };
   

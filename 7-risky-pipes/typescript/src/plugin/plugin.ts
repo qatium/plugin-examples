@@ -1,10 +1,9 @@
 import { Plugin } from "@qatium/sdk/plugin";
-import { Junction, OverlayLayer, Pipe, StyleProperties } from "@qatium/sdk";
+import { Junction, OverlayLayer, Pipe } from "@qatium/sdk";
 import { MessageToEngine, MessageToUI } from "../communication/messages";
 import { OverlayFeature, PipeInRisk } from "../types";
 import { DEFAULT_MAX_PREASSURE, DEFAULT_OLDER_YEARS } from "../constants";
-
-const yearsToMilis = (years: number) => years * 365 * 24 * 60 * 60 * 1000; // TODO: meter en utils
+import { yearsToMilis } from "../panel/utils/time";
 
 const getWidth = (zoom: number) => {
   const lerp = (a: number, b: number, t: number) => a + t * (b - a);
@@ -42,80 +41,7 @@ const getWidth = (zoom: number) => {
   return lerp(a, b, t);
 };
 
-export const createPathLayer = (pipes: PipeInRisk[]) => {
-  const linesData: OverlayFeature[] = pipes.map((p) => {
-    const color: [number, number, number, number] = [90, 185, 2, 128]; // "#5AB902"
-    return {
-      id: String(p.id),
-      type: "Feature",
-      geometry: p.geometry,
-      properties: { color },
-    };
-  });
-
-  const { zoom } = sdk.map.getCamera();
-  console.log({ linesData });
-  return {
-    id: "risky-pipes",
-    data: linesData,
-    type: "PathLayer",
-    visible: true,
-    getPath: (p: OverlayFeature) =>
-      p.geometry.coordinates as [number, number][],
-    getColor: (p: OverlayFeature) => p.properties.color,
-    getWidth: getWidth(zoom),
-  } as OverlayLayer<"PathLayer", (typeof linesData)[0]>;
-};
-
-// TODO: meter como funciones privadas
-const calculatePipeMaxPressure = (pipe: Pipe) => {
-  const junctionsConnectedToPipe = sdk.network
-    .getConnectedAssets([pipe.id], (asset) => asset.type === "Junction")
-    .filter((a): a is Junction => a.type === "Junction");
-
-  return junctionsConnectedToPipe.reduce((maxPressure, junction) => {
-    if (!junction.simulation || junction.simulation.pressure < maxPressure) {
-      return maxPressure;
-    }
-
-    return junction.simulation.pressure;
-  }, -Infinity);
-};
-
-const getPipesInRisk = (riskParameters: {
-  olderThanYears: number;
-  maxPressure: number;
-}): PipeInRisk[] => {
-  const installationDateThreshold =
-    new Date().getTime() - yearsToMilis(riskParameters.olderThanYears);
-
-  const pipesInRisk: PipeInRisk[] = [];
-
-  sdk.network.getPipes((pipe) => {
-    const pipeDateOld = pipe.installationDate?.getTime() ?? Infinity;
-    const isInstallationDateOld = pipeDateOld < installationDateThreshold;
-
-    const maxPressure = calculatePipeMaxPressure(pipe);
-    const isPressureAboveMax = maxPressure > riskParameters.maxPressure;
-
-    const isPipeInRisk = isInstallationDateOld && isPressureAboveMax;
-    const pipeYearsOld =
-      pipe.installationDate?.getTime() && pipe.installationDate?.getTime() > 0
-        ? new Date(pipeDateOld).getFullYear().toString()
-        : "No date registered for this pipe";
-    if (isPipeInRisk) {
-      pipesInRisk.push({
-        id: pipe.id,
-        maxPressure,
-        years: pipeYearsOld,
-        geometry: pipe.geometry,
-      });
-    }
-    return isPipeInRisk;
-  });
-
-  return pipesInRisk;
-};
+const N_PIPES_UI = 20
 
 export class RiskyPipes implements Plugin {
   private olderThanYears: number = DEFAULT_OLDER_YEARS;
@@ -129,29 +55,13 @@ export class RiskyPipes implements Plugin {
   }
 
   private udpateNetwork() {
-    const pipes = getPipesInRisk({
+    const pipes = this.getPipesInRisk({
       olderThanYears: this.olderThanYears,
       maxPressure: this.maxPressure,
     });
 
-    // const styles = Object.fromEntries(
-    //   pipes.map((a): [string, StyleProperties] => [
-    //     a.id,
-    //     {
-    //       elementColor: "red",
-    //       isElementVisible: true,
-    //       shadowColor: "green",
-    //       isShadowVisible: true,
-    //       outlineOpacity: 0,
-    //     },
-    //   ])
-    // );
-
-    // sdk.map.addStyles(styles); // cambiar por overlay
- 
-
     if (pipes.length > 0) {
-      const pipesOverlay = createPathLayer(pipes);
+      const pipesOverlay = this.createPathLayer(pipes);
       sdk.map.addOverlay([pipesOverlay]);
     } else {
       sdk.map.hideOverlay();
@@ -188,6 +98,114 @@ export class RiskyPipes implements Plugin {
       case "highlight":
         sdk.map.setHighlights([message.assetId]);
         break;
+      case "toggle-shutdown-layer":
+        if (message.isLayerVisible === true) {
+          sdk.map.showOverlay();
+        } else {
+          sdk.map.hideOverlay();
+        }
+        sdk.ui.sendMessage<MessageToUI>({
+          event: "update-layer-visibility",
+          isLayerVisible: message.isLayerVisible,
+        });
+        break;
     }
   }
+
+  onZoomChanged() {
+    this.udpateNetwork();
+  }
+
+  private calculatePipeMaxPressure = (pipe: Pipe) => {
+    const junctionsConnectedToPipe = sdk.network
+      .getConnectedAssets([pipe.id], (asset) => asset.type === "Junction")
+      .filter((a): a is Junction => a.type === "Junction");
+
+    return junctionsConnectedToPipe.reduce((maxPressure, junction) => {
+      if (!junction.simulation || junction.simulation.pressure < maxPressure) {
+        return maxPressure;
+      }
+
+      return junction.simulation.pressure;
+    }, -Infinity);
+  };
+
+  private getPipesInRisk = ({
+    olderThanYears,
+    maxPressure,
+  }: {
+    olderThanYears: number;
+    maxPressure: number;
+  }): PipeInRisk[] => {
+    const installationDateThreshold =
+      this.calculateInstallationDateThreshold(olderThanYears);
+    
+      return sdk.network
+        .getPipes()
+        .filter((pipe) =>
+          this.isPipeInRisk(pipe, installationDateThreshold, maxPressure)
+        )
+        .map((pipe) => this.formatPipeInRisk(pipe))
+        .sort(
+          (a, b) =>
+            b.maxPressure - a.maxPressure ||
+            parseInt(b.years) - parseInt(a.years)
+        )
+        .slice(0, N_PIPES_UI);
+  };
+
+  private calculateInstallationDateThreshold(years: number): number {
+    return Date.now() - yearsToMilis(years);
+  }
+
+  private isPipeInRisk(
+    pipe: Pipe,
+    installationDateThreshold: number,
+    maxAllowedPressure: number
+  ): boolean {
+    const installationDate = pipe.installationDate?.getTime() ?? Infinity;
+    const isOld = installationDate < installationDateThreshold;
+
+    const maxPressure = this.calculatePipeMaxPressure(pipe);
+    const isPressureExceeded = maxPressure > maxAllowedPressure;
+
+    return isOld && isPressureExceeded;
+  }
+
+  private formatPipeInRisk(pipe: Pipe): PipeInRisk {
+    const installationYear =
+      pipe.installationDate?.getFullYear()?.toString() ||
+      "No date registered for this pipe";
+
+    return {
+      id: pipe.id,
+      maxPressure: this.calculatePipeMaxPressure(pipe),
+      years: installationYear,
+      geometry: pipe.geometry,
+    };
+  }
+
+  private createPathLayer = (pipes: PipeInRisk[]) => {
+    const linesData: OverlayFeature[] = pipes.map((p) => {
+      const color: [number, number, number, number] = [90, 185, 2, 128]; // "#5AB902"
+      return {
+        id: String(p.id),
+        type: "Feature",
+        geometry: p.geometry,
+        properties: { color },
+      };
+    });
+
+    const { zoom } = sdk.map.getCamera();
+    return {
+      id: "risky-pipes",
+      data: linesData,
+      type: "PathLayer",
+      visible: true,
+      getPath: (p: OverlayFeature) =>
+        p.geometry.coordinates as [number, number][],
+      getColor: (p: OverlayFeature) => p.properties.color,
+      getWidth: getWidth(zoom),
+    } as OverlayLayer<"PathLayer", (typeof linesData)[0]>;
+  };
 }

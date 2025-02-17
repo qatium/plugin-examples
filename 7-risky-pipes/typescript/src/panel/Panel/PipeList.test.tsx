@@ -2,7 +2,6 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import { PipeList } from "./PipeList";
 import { sendMessage } from "@qatium/sdk/ui";
 import { PipeInRisk } from "../../types";
-import { CLEAR_HIGHLIGHTS_TIMEOUT } from "../../constants";
 
 jest.mock("@qatium/sdk/ui", () => ({
   sendMessage: jest.fn(),
@@ -10,8 +9,8 @@ jest.mock("@qatium/sdk/ui", () => ({
 
 describe("PipeList", () => {
   const pipes: PipeInRisk[] = [
-    { id: "pipe1", years: "10", maxPressure: 100 },
-    { id: "pipe2", years: "5", maxPressure: 80 },
+    { id: "pipe1", years: "10", maxPressure: 100, geometry: {type: 'LineString', coordinates: []} },
+    { id: "pipe2", years: "5", maxPressure: 80, geometry: { type: 'LineString', coordinates: [] } },
   ];
 
   beforeEach(() => {
@@ -57,8 +56,6 @@ describe("PipeList", () => {
       assetId: "pipe1",
     });
 
-    jest.advanceTimersByTime(CLEAR_HIGHLIGHTS_TIMEOUT);
-    expect(sendMessage).toHaveBeenCalledWith({ event: "clear-highlights" });
   });
 
   it("renders the correct number of buttons", () => {

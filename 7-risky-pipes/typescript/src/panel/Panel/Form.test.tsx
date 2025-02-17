@@ -17,13 +17,14 @@ jest.mock("react-i18next", () => ({
 
 describe("Form", () => {
     const pressureUnit = "bar";
+    const mockSetIsLoading = jest.fn();
 
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
     it("renders the form with default values", () => {
-        render(<Form pressureUnit={pressureUnit} />);
+        render(<Form pressureUnit={pressureUnit} setIsLoading={mockSetIsLoading} isLoading={false} />);
 
         expect(screen.getByLabelText(t("olderThanYears"))).toHaveValue(DEFAULT_OLDER_YEARS.toString());
         expect(screen.getByLabelText(`${t("maxPressure")} ${pressureUnit}`)).toHaveValue(
@@ -33,7 +34,7 @@ describe("Form", () => {
     });
 
     it("updates form values when input changes", () => {
-        render(<Form pressureUnit={pressureUnit} />);
+        render(<Form pressureUnit={pressureUnit} setIsLoading={mockSetIsLoading} isLoading={false} />);
 
         const olderThanYearsInput = screen.getByLabelText(t("olderThanYears"));
         const maxPressureInput = screen.getByLabelText(`${t("maxPressure")} ${pressureUnit}`);
@@ -46,7 +47,7 @@ describe("Form", () => {
     });
 
     it("shows validation errors for invalid inputs", () => {
-        render(<Form pressureUnit={pressureUnit} />);
+        render(<Form pressureUnit={pressureUnit} setIsLoading={mockSetIsLoading} isLoading={false} />);
 
         const olderThanYearsInput = screen.getByLabelText(t("olderThanYears"));
         const maxPressureInput = screen.getByLabelText(`${t("maxPressure")} ${pressureUnit}`);
@@ -63,7 +64,7 @@ describe("Form", () => {
     });
 
     it("calls requestSearch with valid form values on submit", () => {
-        render(<Form pressureUnit={pressureUnit} />);
+        render(<Form pressureUnit={pressureUnit} setIsLoading={mockSetIsLoading} isLoading={false} />);
 
         const olderThanYearsInput = screen.getByLabelText(t("olderThanYears"));
         const maxPressureInput = screen.getByLabelText(`${t("maxPressure")} ${pressureUnit}`);

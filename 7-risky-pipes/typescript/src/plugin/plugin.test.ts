@@ -1,24 +1,21 @@
-import { MyPlugin } from "./plugin";
-import { StyleProperties } from "@qatium/sdk";
+import { RiskyPipes } from "./plugin";
 import { MessageToEngine } from "../communication/messages";
 import { PipeInRisk } from "../types";
 import { mockSDK } from "@qatium/sdk-testing-library";
 
-  
 describe("MyPlugin", () => {
-  let plugin: MyPlugin;
+  let plugin: RiskyPipes;
 
   beforeEach(() => {
-    plugin = new MyPlugin();
+    plugin = new RiskyPipes();
     jest.clearAllMocks();
   });
 
   describe("init", () => {
     it("sends the pressure unit to the UI", () => {
-      
-      const sdk = mockSDK({})
+      const sdk = mockSDK({});
       const sendMessageSpy = jest.spyOn(sdk.ui, "sendMessage");
-      
+
       global.sdk = sdk;
       plugin.init();
 
@@ -31,7 +28,6 @@ describe("MyPlugin", () => {
 
   describe("run", () => {
     it("calculates pipes in risk and updates styles and panel", () => {
-
       const sdk = mockSDK({
         network: [
           {
@@ -39,6 +35,10 @@ describe("MyPlugin", () => {
             id: "pipe1",
             installationDate: new Date("1990-01-01"),
             connections: ["J1"],
+            geometry: {
+              type: 'LineString',
+              coordinates: [[2,2]]
+            }
           },
           { id: "J1", type: "Junction", simulation: { pressure: 120 } },
         ],
@@ -46,24 +46,25 @@ describe("MyPlugin", () => {
 
       global.sdk = sdk;
 
-
-      const pipesInRisk = [{ id: "pipe1", maxPressure: 120, years: "1990" }];
-
-      const styles: Record<string, StyleProperties> = {
-        pipe1: {
-          elementColor: "red",
-          isElementVisible: true,
-          shadowColor: "green",
-          isShadowVisible: true,
-          outlineOpacity: 0,
+      const pipesInRisk = [
+        {
+          id: "pipe1",
+          maxPressure: 120,
+          years: "1990",
+          geometry: {
+            type: "LineString",
+            coordinates: [[2, 2]],
+          },
         },
-      };
+      ];
+
+
 
       jest.spyOn(plugin as any, "updatePanel");
 
-      plugin.run();
+      plugin.onNetworkChanged();
 
-      expect(sdk.map.addStyles).toHaveBeenCalledWith(styles);
+      expect(sdk.map.addOverlay).toHaveBeenCalled();
       expect(plugin["updatePanel"]).toHaveBeenCalledWith(pipesInRisk);
     });
   });
@@ -71,7 +72,12 @@ describe("MyPlugin", () => {
   describe("updatePanel", () => {
     it("sends pipes in risk to the UI", () => {
       const pipesInRisk: PipeInRisk[] = [
-        { id: "pipe1", maxPressure: 120, years: "1990" },
+        {
+          id: "pipe1",
+          maxPressure: 120,
+          years: "1990",
+          geometry: { type: "LineString", coordinates: [] },
+        },
       ];
 
       const sdk = mockSDK({
@@ -98,17 +104,13 @@ describe("MyPlugin", () => {
   });
 
   describe("onMessage", () => {
-
     beforeAll(() => {
       const sdk = mockSDK({});
       global.sdk = sdk;
-    })
+    });
     it("handles 'request-risky-pipes' messages", () => {
-
       const sdk = mockSDK({});
       global.sdk = sdk;
-
-      jest.spyOn(plugin, "run");
 
       const message: MessageToEngine = {
         event: "request-risky-pipes",
@@ -119,11 +121,12 @@ describe("MyPlugin", () => {
 
       expect(plugin["olderThanYears"]).toBe(30);
       expect(plugin["maxPressure"]).toBe(90);
-      expect(plugin.run).toHaveBeenCalled();
+      expect(sdk.ui.sendMessage).toHaveBeenCalledWith(expect.objectContaining({
+        event: "pipes-in-risk",
+      }));
     });
 
     it("handles 'fit-to' messages", () => {
-
       const message: MessageToEngine = {
         event: "fit-to",
         assetId: "pipe1",
@@ -139,7 +142,6 @@ describe("MyPlugin", () => {
     });
 
     it("handles 'highlight' messages", () => {
-
       const message: MessageToEngine = {
         event: "highlight",
         assetId: "pipe1",

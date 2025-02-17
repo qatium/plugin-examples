@@ -40,7 +40,10 @@ describe("App", () => {
 
     render(<App />);
     expect(Form).toHaveBeenCalledWith(
-      { pressureUnit: "bar" },
+      expect.objectContaining({
+        pressureUnit: "bar",
+        isLoading: false,
+      }),
       expect.anything()
     );
 
