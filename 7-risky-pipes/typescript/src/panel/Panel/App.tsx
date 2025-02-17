@@ -6,6 +6,7 @@ import { Form } from "./Form"
 import { PipeList } from "./PipeList";
 import { PipeInRisk } from "../../types";
 import { Toggle } from "./Toggle";
+import { useTranslation } from "react-i18next";
 
 const onToggleLayerVisibility = (isLayerVisible: boolean) => {
  sendMessage<MessageToEngine>({
@@ -20,6 +21,7 @@ export const App = () => {
   const [pressureUnit, setPressureUnit] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLayerVisible, setIsLayerVisible] = useState<boolean>(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const { removeListener } = onMessage<MessageToUI>((msg) => {
@@ -43,7 +45,7 @@ export const App = () => {
     <div className="container">
       <Form pressureUnit={pressureUnit} setIsLoading={setIsLoading} isLoading={isLoading} />
       {isLoading ? (
-        <p>Loading...</p>
+        <p>{t("loading")}</p>
       ) : (
         <PipeList pipes={pipesInRisk} />
       )}

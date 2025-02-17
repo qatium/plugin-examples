@@ -2,8 +2,8 @@ import { Plugin } from "@qatium/sdk/plugin";
 import { Junction, OverlayLayer, Pipe } from "@qatium/sdk";
 import { MessageToEngine, MessageToUI } from "../communication/messages";
 import { OverlayFeature, PipeInRisk } from "../types";
-import { DEFAULT_MAX_PREASSURE, DEFAULT_OLDER_YEARS } from "../constants";
-import { yearsToMilis } from "../panel/utils/time";
+import { DEFAULT_MAX_PREASSURE, DEFAULT_OLDER_YEARS, N_PIPES_UI } from "../constants";
+import { yearsToMilis } from "../utils";
 
 const getWidth = (zoom: number) => {
   const lerp = (a: number, b: number, t: number) => a + t * (b - a);
@@ -41,11 +41,11 @@ const getWidth = (zoom: number) => {
   return lerp(a, b, t);
 };
 
-const N_PIPES_UI = 20
-
 export class RiskyPipes implements Plugin {
   private olderThanYears: number = DEFAULT_OLDER_YEARS;
   private maxPressure: number = DEFAULT_MAX_PREASSURE;
+
+  private pipesInRisk: PipeInRisk[] = []
 
   init() {
     sdk.ui.sendMessage<MessageToUI>({
@@ -54,31 +54,8 @@ export class RiskyPipes implements Plugin {
     });
   }
 
-  private udpateNetwork() {
-    const pipes = this.getPipesInRisk({
-      olderThanYears: this.olderThanYears,
-      maxPressure: this.maxPressure,
-    });
-
-    if (pipes.length > 0) {
-      const pipesOverlay = this.createPathLayer(pipes);
-      sdk.map.addOverlay([pipesOverlay]);
-    } else {
-      sdk.map.hideOverlay();
-    }
-
-    this.updatePanel(pipes);
-  }
-
   onNetworkChanged() {
     this.udpateNetwork();
-  }
-
-  updatePanel(pipes: PipeInRisk[]) {
-    sdk.ui.sendMessage<MessageToUI>({
-      event: "pipes-in-risk",
-      pipes: JSON.parse(JSON.stringify(pipes)),
-    });
   }
 
   onMessage(message: MessageToEngine) {
@@ -113,7 +90,33 @@ export class RiskyPipes implements Plugin {
   }
 
   onZoomChanged() {
-    this.udpateNetwork();
+    if (this.pipesInRisk.length > 0) {
+      const pipesOverlay = this.createPathLayer(this.pipesInRisk);
+      sdk.map.addOverlay([pipesOverlay]);
+    } 
+  }
+
+  private udpateNetwork() {
+    const pipes = this.getPipesInRisk({
+      olderThanYears: this.olderThanYears,
+      maxPressure: this.maxPressure,
+    });
+
+    if (pipes.length > 0) {
+      const pipesOverlay = this.createPathLayer(pipes);
+      sdk.map.addOverlay([pipesOverlay]);
+    } else {
+      sdk.map.hideOverlay();
+    }
+    this.pipesInRisk = pipes;
+    this.updatePanel(pipes);
+  }
+
+  private updatePanel(pipes: PipeInRisk[]) {
+    sdk.ui.sendMessage<MessageToUI>({
+      event: "pipes-in-risk",
+      pipes: JSON.parse(JSON.stringify(pipes)),
+    });
   }
 
   private calculatePipeMaxPressure = (pipe: Pipe) => {
@@ -137,21 +140,28 @@ export class RiskyPipes implements Plugin {
     olderThanYears: number;
     maxPressure: number;
   }): PipeInRisk[] => {
+    const pipesInRisk: PipeInRisk[] = [];
+
     const installationDateThreshold =
       this.calculateInstallationDateThreshold(olderThanYears);
-    
-      return sdk.network
-        .getPipes()
-        .filter((pipe) =>
-          this.isPipeInRisk(pipe, installationDateThreshold, maxPressure)
-        )
-        .map((pipe) => this.formatPipeInRisk(pipe))
-        .sort(
-          (a, b) =>
-            b.maxPressure - a.maxPressure ||
-            parseInt(b.years) - parseInt(a.years)
-        )
-        .slice(0, N_PIPES_UI);
+
+
+    sdk.network.getPipes((pipe) => {
+      const pipeInRisk = this.isPipeInRisk(
+        pipe,
+        installationDateThreshold,
+        maxPressure
+      );
+      if (pipeInRisk) pipesInRisk.push(this.formatPipeInRisk(pipe));
+      return pipeInRisk;
+    });
+
+    return pipesInRisk
+      .sort(
+        (a, b) =>
+          b.maxPressure - a.maxPressure || parseInt(b.years) - parseInt(a.years)
+      )
+      .slice(0, N_PIPES_UI);
   };
 
   private calculateInstallationDateThreshold(years: number): number {

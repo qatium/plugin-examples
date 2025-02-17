@@ -5,6 +5,7 @@ type TranslationKeys = {
     olderThanYears: string;
     maxPressure: string;
     emptyPipeList: string;
+    loading: string;
   };
 };
 
@@ -15,6 +16,7 @@ export const en: TranslationKeys = {
     olderThanYears: "Older Than Years",
     maxPressure: "Max Pressure",
     emptyPipeList: "No pipes at risk were found.",
+    loading: "Loading...",
   },
 };
 
@@ -25,5 +27,6 @@ export const es: TranslationKeys = {
     olderThanYears: "Más antiguo que años",
     maxPressure: "Presión máxima",
     emptyPipeList: "No se encontraron tuberías en riesgo.",
+    loading: "Cargando...",
   },
 };

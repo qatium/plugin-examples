@@ -4,6 +4,7 @@ import { sendMessage } from "@qatium/sdk/ui";
 import { MessageToEngine } from "../../communication/messages";
 import { useTranslation } from "react-i18next";
 import { DEFAULT_MAX_PREASSURE, DEFAULT_OLDER_YEARS } from "../../constants";
+import { isValidNumber } from "../../utils";
 
 
 type FormProps = {
@@ -18,11 +19,6 @@ const requestSearch = (payload: FormValues) => {
     payload,
   });
 };
-
-const isValidNumber = (value: number) => {
-  if (Number.isNaN(value)) return false
-  return value >= 0
-}
 
 export const Form = ({ pressureUnit, setIsLoading, isLoading }: FormProps) => {
   const { t } = useTranslation();

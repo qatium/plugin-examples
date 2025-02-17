@@ -7,6 +7,12 @@ jest.mock("@qatium/sdk/ui", () => ({
   sendMessage: jest.fn(),
 }));
 
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+  }),
+}));
+
 describe("PipeList", () => {
   const pipes: PipeInRisk[] = [
     { id: "pipe1", years: "10", maxPressure: 100, geometry: {type: 'LineString', coordinates: []} },

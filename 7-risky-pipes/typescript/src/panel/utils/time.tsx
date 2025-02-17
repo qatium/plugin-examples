@@ -1,1 +1,0 @@
-export const yearsToMilis = (years: number) => years * 365 * 24 * 60 * 60 * 1000;
