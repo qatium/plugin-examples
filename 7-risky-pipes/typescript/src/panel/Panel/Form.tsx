@@ -63,8 +63,8 @@ export const Form = ({ pressureUnit, setIsLoading, isLoading }: FormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <form onSubmit={handleSubmit} className="vstack">
+      <div className="hstack cols-2">
         <label htmlFor="olderThanYears">{t("olderThanYears")}</label>
         <input
           id="olderThanYears"
@@ -74,7 +74,7 @@ export const Form = ({ pressureUnit, setIsLoading, isLoading }: FormProps) => {
         />
         {errors.olderThanYears && <p>{errors.olderThanYears}</p>}
       </div>
-      <div>
+      <div className="hstack cols-2">
         <label htmlFor="maxPressure">{t("maxPressure")} {pressureUnit}</label>
         <input
           id="maxPressure"

@@ -15,7 +15,7 @@ jest.mock("react-i18next", () => ({
 
 describe("PipeList", () => {
   const pipes: PipeInRisk[] = [
-    { id: "pipe1", years: "10", maxPressure: 100, geometry: {type: 'LineString', coordinates: []} },
+    { id: "pipe1", years: "10", maxPressure: 100, geometry: { type: 'LineString', coordinates: [] } },
     { id: "pipe2", years: "5", maxPressure: 80, geometry: { type: 'LineString', coordinates: [] } },
   ];
 
@@ -34,11 +34,11 @@ describe("PipeList", () => {
 
     expect(screen.getByText("pipe1")).toBeInTheDocument();
     expect(screen.getByText("10")).toBeInTheDocument();
-    expect(screen.getByText("100")).toBeInTheDocument();
+    expect(screen.getByText("100.00")).toBeInTheDocument();
 
     expect(screen.getByText("pipe2")).toBeInTheDocument();
     expect(screen.getByText("5")).toBeInTheDocument();
-    expect(screen.getByText("80")).toBeInTheDocument();
+    expect(screen.getByText("80.00")).toBeInTheDocument();
   });
 
   it("does not render the list if there are no pipes", () => {

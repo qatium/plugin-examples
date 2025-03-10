@@ -11,7 +11,7 @@ type PipeListProps = {
 
 
 const mapService = {
-  fitTo: (assetId: string) => { 
+  fitTo: (assetId: string) => {
     sendMessage<MessageToEngine>({ event: "fit-to", assetId });
   },
   highlight: (assetId: string) => {
@@ -20,22 +20,22 @@ const mapService = {
 };
 
 const focusAsset = (assetId: AssetId) => {
-    mapService.highlight(assetId);
-    mapService.fitTo(assetId);
-  };
+  mapService.highlight(assetId);
+  mapService.fitTo(assetId);
+};
 
 export const PipeList = ({ pipes }: PipeListProps) => {
   const { t } = useTranslation();
 
   return (
-    <div>
+    <div className="pipe-list vstack full-width">
       {pipes.length > 0 ? (
         <ol>
           {pipes.map((pipe) => (
-            <li key={pipe.id}>
-              <div>{pipe.id}</div>
+            <li key={pipe.id} className="pipe-data">
+              <div className="pipe-id">{pipe.id}</div>
               <div>{pipe.years}</div>
-              <div>{pipe.maxPressure}</div>
+              <div>{pipe.maxPressure.toFixed(2)}</div>
               <button
                 onClick={() => focusAsset(pipe.id)}
               >

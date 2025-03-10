@@ -9,10 +9,10 @@ import { Toggle } from "./Toggle";
 import { useTranslation } from "react-i18next";
 
 const onToggleLayerVisibility = (isLayerVisible: boolean) => {
- sendMessage<MessageToEngine>({
-   event: "toggle-shutdown-layer",
-   isLayerVisible,
-   });
+  sendMessage<MessageToEngine>({
+    event: "toggle-shutdown-layer",
+    isLayerVisible,
+  });
 };
 
 export const App = () => {
@@ -42,19 +42,22 @@ export const App = () => {
   }, []);
 
   return (
-    <div className="container">
+    <div className="vstack">
       <Form pressureUnit={pressureUnit} setIsLoading={setIsLoading} isLoading={isLoading} />
       {isLoading ? (
         <p>{t("loading")}</p>
       ) : (
-        <PipeList pipes={pipesInRisk} />
+        <>
+          {
+            pipesInRisk.length > 0 && <Toggle
+              onChange={onToggleLayerVisibility}
+              toggled={isLayerVisible}
+              label={t("showLayerHint")}
+            />
+          }
+          <PipeList pipes={pipesInRisk} />
+        </>
       )}
-      <Toggle
-        aria-label={"showLayerHint"}
-        onChange={onToggleLayerVisibility}
-        toggled={isLayerVisible}
-        size={"medium"}
-      />
     </div>
   );
 };
