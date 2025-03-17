@@ -16,6 +16,12 @@ jest.mock("./PipeList", () => ({
   PipeList: jest.fn(() => <div>Mocked PipeList</div>),
 }));
 
+jest.mock("react-i18next", () => ({
+  useTranslation: () => ({
+    t: (key: string) => key,
+  }),
+}));
+
 describe("App", () => {
   const mockRemoveListener = jest.fn();
 
