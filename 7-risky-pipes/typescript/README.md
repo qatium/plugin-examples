@@ -1,5 +1,6 @@
 # Risky pipes plugin
 
+Risky Pipes is a plugin designed to identify potential risk pipes in a distribution network by displaying the top 20 pipes with the highest pressure that meet specific age and pressure criteria. Users can set the "Older Than Years" and "Max Pressure" inputs to filter pipes, which are then listed with their ID, installation year, and maximum pressure.
 
 
 ## Running the plugin
