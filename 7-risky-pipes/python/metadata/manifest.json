@@ -1,0 +1,11 @@
+{
+  "$schema": "https://unpkg.com/@qatium/sdk/manifest.schema.json",
+  "runtime": "python",
+  "name": "Risky Pipes",
+  "version": "1.0.0",
+  "python": {
+    "packages": [
+      "qatiumsdk"
+    ]
+  }
+}

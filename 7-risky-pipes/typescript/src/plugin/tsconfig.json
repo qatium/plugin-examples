@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": [
+    "../setupTests.ts",
+    "../types.ts",
+    "../../build.config.ts"
+  ],
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": [
+      "ES6"
+    ],
+    "types": [
+      "vite/client"
+    ]
+  }
+}
