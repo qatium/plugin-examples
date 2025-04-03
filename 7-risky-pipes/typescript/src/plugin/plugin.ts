@@ -141,7 +141,7 @@ export class RiskyPipes implements Plugin {
     maxPressure: number;
   }): PipeInRisk[] => {
     const pipesInRisk: PipeInRisk[] = [];
-
+    const test = 10
     const installationDateThreshold =
       this.calculateInstallationDateThreshold(olderThanYears);
 
