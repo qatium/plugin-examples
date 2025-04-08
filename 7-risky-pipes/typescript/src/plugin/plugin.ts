@@ -197,7 +197,7 @@ export class RiskyPipes implements Plugin {
 
   private createPathLayer = (pipes: PipeInRisk[]) => {
     const linesData: OverlayFeature[] = pipes.map((p) => {
-      const color: [number, number, number, number] = [90, 185, 2, 128]; // "#5AB902"
+      const color: [number, number, number, number] = [178, 87, 2, 128]; // "#B25702"
       return {
         id: String(p.id),
         type: "Feature",
