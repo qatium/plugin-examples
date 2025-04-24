@@ -12,5 +12,5 @@
   "include": [
     ".",
     "../setupTests.ts"
-  ]
+, "../types.ts"  ]
 }

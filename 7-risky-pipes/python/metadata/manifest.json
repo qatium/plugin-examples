@@ -1,7 +1,11 @@
 {
   "$schema": "https://unpkg.com/@qatium/sdk/manifest.schema.json",
   "runtime": "python",
-  "name": "Risky Pipes",
+  "name": {
+    "en": "Risky Pipes",
+    "es": "Tuberías en riesgo",
+    "pt": "Tubulações em risco"
+  },
   "version": "1.0.0",
   "python": {
     "packages": [

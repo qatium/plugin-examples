@@ -1,5 +1,5 @@
 {
-  "name": "risky-pipes-plugin",
+  "name": "risky-pipes-typescript",
   "version": "1.0.0",
   "type": "module",
   "description": "Sample plugin for Qatium using typescript",

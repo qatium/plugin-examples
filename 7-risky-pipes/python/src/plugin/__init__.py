@@ -1,4 +1,4 @@
-from .plugin import MyPlugin
+from .plugin import RiskyPipes
 from qatiumsdk import init
 
-init(MyPlugin())
+init(RiskyPipes())
