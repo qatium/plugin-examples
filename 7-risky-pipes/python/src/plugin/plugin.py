@@ -51,6 +51,7 @@ class RiskyPipes(Plugin):
 
     __older_than_years = DEFAULT_OLDER_YEARS
     __max_pressure = DEFAULT_MAX_PRESSURE
+    __is_layer_visible = True
     __pipes_in_risk = []
     
     async def init(self):
@@ -74,14 +75,6 @@ class RiskyPipes(Plugin):
                 "pressureUnit": ""
             })
     
-    def onNetworkChanged(self):
-        self.update_network()
-        
-    def onZoomChanged(self):
-        if len(self.__pipes_in_risk) > 0:
-            pipes_overlay = self.create_path_layer(self.__pipes_in_risk)
-            sdk.map.add_overlay([pipes_overlay])
-    
     async def onMessage(self, message):
         event = getattr(message, "event")
         
@@ -103,32 +96,37 @@ class RiskyPipes(Plugin):
          sdk.map.set_highlights([getattr(message, "assetId")])
             
         elif event == "toggle-shutdown-layer":
-            is_layer_visible = getattr(message, "isLayerVisible")
-            if is_layer_visible is True:
-                sdk.map.show_overlay()
-            else:
-                sdk.map.hide_overlay()
+            self.__is_layer_visible = getattr(message, "isLayerVisible")
+            self.update_overlay(self.__pipes_in_risk)
                 
             sdk.ui.send_message({
                 "event": "update-layer-visibility",
-                "isLayerVisible": is_layer_visible
+                "isLayerVisible": self.__is_layer_visible
             })
+    
+    def onNetworkChanged(self):
+        self.update_network()
+        
+    def onZoomChanged(self):
+        self.update_overlay(self.__pipes_in_risk)
+
+    def update_overlay(self, pipes):
+        if self.__is_layer_visible and len(pipes) > 0:
+            pipes_overlay = self.create_path_layer(pipes)
+            sdk.map.add_overlay([pipes_overlay])
+        else:
+            sdk.map.hide_overlay()
     
     def update_network(self):
         pipes = self.get_pipes_in_risk({
             "olderThanYears": self.__older_than_years,
             "maxPressure": self.__max_pressure
         })
-        
-        if len(pipes) > 0:
-            pipes_overlay = self.create_path_layer(pipes)
-            sdk.map.add_overlay([pipes_overlay])
-        else:
-            sdk.map.hide_overlay()
             
         self.__pipes_in_risk = pipes
         self.update_panel(pipes)
-    
+        self.update_overlay(pipes)
+        
     def update_panel(self, pipes):
         pipes_dict = []
         for pipe in pipes:

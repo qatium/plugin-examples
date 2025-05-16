@@ -44,7 +44,7 @@ const getWidth = (zoom: number) => {
 export class RiskyPipes implements Plugin {
   private olderThanYears: number = DEFAULT_OLDER_YEARS;
   private maxPressure: number = DEFAULT_MAX_PREASSURE;
-
+  private isLayerVisible: boolean = true;
   private pipesInRisk: PipeInRisk[] = []
 
   init() {
@@ -76,24 +76,19 @@ export class RiskyPipes implements Plugin {
         sdk.map.setHighlights([message.assetId]);
         break;
       case "toggle-shutdown-layer":
-        if (message.isLayerVisible === true) {
-          sdk.map.showOverlay();
-        } else {
-          sdk.map.hideOverlay();
-        }
+        this.isLayerVisible = message.isLayerVisible;
+        this.updateOverlay(this.pipesInRisk);
+        
         sdk.ui.sendMessage<MessageToUI>({
           event: "update-layer-visibility",
-          isLayerVisible: message.isLayerVisible,
+          isLayerVisible: this.isLayerVisible,
         });
         break;
     }
   }
 
   onZoomChanged() {
-    if (this.pipesInRisk.length > 0) {
-      const pipesOverlay = this.createPathLayer(this.pipesInRisk);
-      sdk.map.addOverlay([pipesOverlay]);
-    } 
+    this.updateOverlay(this.pipesInRisk);
   }
 
   private udpateNetwork() {
@@ -102,13 +97,8 @@ export class RiskyPipes implements Plugin {
       maxPressure: this.maxPressure,
     });
 
-    if (pipes.length > 0) {
-      const pipesOverlay = this.createPathLayer(pipes);
-      sdk.map.addOverlay([pipesOverlay]);
-    } else {
-      sdk.map.hideOverlay();
-    }
     this.pipesInRisk = pipes;
+    this.updateOverlay(pipes);
     this.updatePanel(pipes);
   }
 
@@ -117,6 +107,15 @@ export class RiskyPipes implements Plugin {
       event: "pipes-in-risk",
       pipes: JSON.parse(JSON.stringify(pipes)),
     });
+  }
+
+  private updateOverlay(pipes: PipeInRisk[]) {
+    if (this.isLayerVisible && pipes.length > 0) {
+      const pipesOverlay = this.createPathLayer(pipes);
+      sdk.map.addOverlay([pipesOverlay]);
+    } else {
+      sdk.map.hideOverlay();
+    }
   }
 
   private calculatePipeMaxPressure = (pipe: Pipe) => {

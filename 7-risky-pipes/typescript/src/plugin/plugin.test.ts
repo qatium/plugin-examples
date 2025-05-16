@@ -69,6 +69,22 @@ describe("MyPlugin", () => {
     });
   });
 
+  describe("onZoomChanged", () => {
+    it("map overlay is not displayed when toggle is off", () => {
+      const sdk = mockSDK({});
+      global.sdk = sdk;
+
+      plugin.onMessage({
+        event: "toggle-shutdown-layer",
+        isLayerVisible: false,
+      });
+
+      plugin.onZoomChanged();
+      expect(sdk.map.hideOverlay).toHaveBeenCalled();
+      expect(sdk.map.addOverlay).not.toHaveBeenCalled();
+    });
+  });
+
   describe("updatePanel", () => {
     it("sends pipes in risk to the UI", () => {
       const pipesInRisk: PipeInRisk[] = [
